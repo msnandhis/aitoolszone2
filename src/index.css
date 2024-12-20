@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base Styles */
+@layer base {
+  html {
+    @apply antialiased text-gray-900;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white;
+  }
+
+  /* Improve default focus styles */
+  :focus-visible {
+    @apply outline-none ring-2 ring-primary-500 ring-offset-2;
+  }
+
+  /* Smooth scrolling for anchor links */
+  html:focus-within {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Component Styles */
+@layer components {
+  /* Loading States */
+  .loading-skeleton {
+    @apply animate-pulse bg-gray-200 rounded;
+  }
+
+  /* Transitions */
+  .page-transition-enter {
+    @apply opacity-0;
+  }
+  .page-transition-enter-active {
+    @apply opacity-100 transition-opacity duration-300;
+  }
+  .page-transition-exit {
+    @apply opacity-100;
+  }
+  .page-transition-exit-active {
+    @apply opacity-0 transition-opacity duration-300;
+  }
+
+  /* Card Hover Effects */
+  .hover-card {
+    @apply transition-all duration-300;
+  }
+  .hover-card:hover {
+    @apply transform -translate-y-1 shadow-lg;
+  }
+
+  /* Button Loading State */
+  .btn-loading {
+    @apply relative text-transparent transition-none pointer-events-none select-none;
+  }
+  .btn-loading::after {
+    @apply absolute inset-0 flex items-center justify-center text-white;
+    content: "Loading...";
+  }
+}
+
+/* Utility Classes */
+@layer utilities {
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Gradient text */
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-primary-700;
+  }
+
+  /* Glass effect */
+  .glass {
+    @apply bg-white bg-opacity-70 backdrop-blur-lg;
+  }
+}
+
+/* Performance Optimizations */
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+  
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}

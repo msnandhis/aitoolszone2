@@ -1,0 +1,55 @@
+{
+  "name": "AI API Kit - Resource Directory",
+  "short_name": "AI API Kit",
+  "description": "Discover and explore AI and development resources, tools, and APIs for building amazing applications.",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/maskable-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "theme_color": "#1e1e1e",
+  "background_color": "#111827",
+  "display": "standalone",
+  "start_url": "/",
+  "orientation": "portrait",
+  "categories": ["development", "tools", "resources"],
+  "shortcuts": [
+    {
+      "name": "Resources",
+      "url": "/",
+      "description": "Browse all resources"
+    },
+    {
+      "name": "Admin Panel",
+      "url": "/admin",
+      "description": "Manage resources and users"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot-1.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "label": "Homepage showing resource categories"
+    },
+    {
+      "src": "/screenshot-2.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "label": "Admin panel dashboard"
+    }
+  ]
+}
