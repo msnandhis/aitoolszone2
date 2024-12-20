@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { AdminLayout } from './AdminLayout';
-import { styles } from '../../theme';
+import React, { useState, useEffect } from "react";
+import { AdminLayout } from "./AdminLayout";
+import { styles } from "../../theme";
 import {
   Plus,
   Search,
@@ -8,12 +8,12 @@ import {
   Trash2,
   ExternalLink,
   Save,
-  X
-} from 'lucide-react';
-import type { Application, Category } from '../../types';
-import { fetchCategories } from '../../services/api';
-import { LogoUpload } from '../../components/admin/LogoUpload';
-import { CategorySelect } from '../../components/admin/CategorySelect';
+  X,
+} from "lucide-react";
+import type { Application, Category } from "../../types";
+import { fetchCategories } from "../../services/api";
+import { LogoUpload } from "../../components/admin/LogoUpload";
+import { CategorySelect } from "../../components/admin/CategorySelect";
 
 interface FormData {
   name: string;
@@ -22,26 +22,26 @@ interface FormData {
   provider: string;
   categories: { id: string; name: string }[];
   logo: string;
-  badge: Application['badge'];
+  badge: Application["badge"];
 }
 
 export default function Tools() {
   const [applications, setApplications] = useState<Application[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingApp, setEditingApp] = useState<Application | null>(null);
   const [formData, setFormData] = useState<FormData>({
-    name: '',
-    description: '',
-    url: '',
-    provider: '',
+    name: "",
+    description: "",
+    url: "",
+    provider: "",
     categories: [],
-    logo: '',
-    badge: null
+    logo: "",
+    badge: null,
   });
-  const [logoUploadType, setLogoUploadType] = useState<'url' | 'file'>('url');
+  const [logoUploadType, setLogoUploadType] = useState<"url" | "file">("url");
 
   useEffect(() => {
     loadCategories();
@@ -52,16 +52,20 @@ export default function Tools() {
       const response = await fetchCategories();
       setCategories(response.data || []);
     } catch (error) {
-      console.error('Error loading categories:', error);
+      console.error("Error loading categories:", error);
       setCategories([]);
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -78,7 +82,7 @@ export default function Tools() {
       badge: formData.badge,
       views: 0,
       created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
+      updated_at: new Date().toISOString(),
     };
     setApplications([...applications, newTool]);
     setShowAddModal(false);
@@ -88,40 +92,42 @@ export default function Tools() {
   const handleUpdateTool = (e: React.FormEvent) => {
     e.preventDefault();
     if (!editingApp) return;
-    setApplications(applications.map(app =>
-      app.id === editingApp.id
-        ? {
-            ...app,
-            name: formData.name,
-            provider: formData.provider,
-            description: formData.description,
-            url: formData.url,
-            categories: formData.categories,
-            logo: formData.logo,
-            badge: formData.badge,
-            updated_at: new Date().toISOString()
-          }
-        : app
-    ));
+    setApplications(
+      applications.map((app) =>
+        app.id === editingApp.id
+          ? {
+              ...app,
+              name: formData.name,
+              provider: formData.provider,
+              description: formData.description,
+              url: formData.url,
+              categories: formData.categories,
+              logo: formData.logo,
+              badge: formData.badge,
+              updated_at: new Date().toISOString(),
+            }
+          : app
+      )
+    );
     setEditingApp(null);
     resetForm();
   };
 
   const handleDeleteTool = (appId: string) => {
-    setApplications(applications.filter(app => app.id !== appId));
+    setApplications(applications.filter((app) => app.id !== appId));
   };
 
   const resetForm = () => {
     setFormData({
-      name: '',
-      description: '',
-      url: '',
-      provider: '',
+      name: "",
+      description: "",
+      url: "",
+      provider: "",
       categories: [],
-      logo: '',
-      badge: null
+      logo: "",
+      badge: null,
     });
-    setLogoUploadType('url');
+    setLogoUploadType("url");
   };
 
   const handleModalClose = () => {
@@ -131,17 +137,17 @@ export default function Tools() {
   };
 
   const ToolModal = ({ isEdit = false }: { isEdit?: boolean }) => (
-    <div 
+    <div
       className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
       onClick={handleModalClose}
     >
-      <div 
+      <div
         className="bg-white rounded-xl p-6 max-w-2xl w-full mx-4 overflow-y-auto max-h-[90vh]"
-        onClick={e => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-display font-bold text-gray-900">
-            {isEdit ? 'Edit Tool' : 'Add New Tool'}
+            {isEdit ? "Edit Tool" : "Add New Tool"}
           </h2>
           <button
             type="button"
@@ -152,10 +158,16 @@ export default function Tools() {
           </button>
         </div>
 
-        <form onSubmit={isEdit ? handleUpdateTool : handleAddTool} className="space-y-6">
+        <form
+          onSubmit={isEdit ? handleUpdateTool : handleAddTool}
+          className="space-y-6"
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Tool Name
               </label>
               <input
@@ -171,7 +183,10 @@ export default function Tools() {
             </div>
 
             <div>
-              <label htmlFor="provider" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="provider"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Provider
               </label>
               <input
@@ -188,7 +203,10 @@ export default function Tools() {
             </div>
 
             <div>
-              <label htmlFor="url" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="url"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 URL
               </label>
               <input
@@ -204,13 +222,16 @@ export default function Tools() {
             </div>
 
             <div>
-              <label htmlFor="badge" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="badge"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Badge
               </label>
               <select
                 id="badge"
                 name="badge"
-                value={formData.badge || ''}
+                value={formData.badge || ""}
                 onChange={handleInputChange}
                 className="w-full px-4 py-2 border border-gray-200 rounded-lg
                          focus:ring-2 focus:ring-primary-100 focus:border-primary-500"
@@ -227,7 +248,9 @@ export default function Tools() {
               </label>
               <CategorySelect
                 selectedCategories={formData.categories}
-                onCategoryChange={(categories) => setFormData(prev => ({ ...prev, categories }))}
+                onCategoryChange={(categories) =>
+                  setFormData((prev) => ({ ...prev, categories }))
+                }
                 categories={categories}
               />
             </div>
@@ -238,14 +261,19 @@ export default function Tools() {
               </label>
               <LogoUpload
                 logoUrl={formData.logo}
-                onLogoChange={(logo) => setFormData(prev => ({ ...prev, logo }))}
+                onLogoChange={(logo) =>
+                  setFormData((prev) => ({ ...prev, logo }))
+                }
                 logoUploadType={logoUploadType}
                 setLogoUploadType={setLogoUploadType}
               />
             </div>
 
             <div className="md:col-span-2">
-              <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="description"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Description
               </label>
               <textarea
@@ -275,7 +303,7 @@ export default function Tools() {
                          flex items-center gap-2`}
             >
               <Save className="w-4 h-4" />
-              {isEdit ? 'Update Tool' : 'Add Tool'}
+              {isEdit ? "Update Tool" : "Add Tool"}
             </button>
           </div>
         </form>
@@ -289,9 +317,7 @@ export default function Tools() {
         {/* Page Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 px-4 sm:px-0">
           <div>
-            <h1 className={`${styles.heading.h1} text-gray-900 mb-2`}>
-              Tools
-            </h1>
+            <h1 className={`${styles.heading.h1} text-gray-900 mb-2`}>Tools</h1>
             <p className="text-base lg:text-lg text-gray-600">
               Manage your AI tools directory.
             </p>
@@ -325,14 +351,16 @@ export default function Tools() {
             {/* Category Filter */}
             <div className="sm:w-48">
               <select
-                value={selectedCategory || ''}
+                value={selectedCategory || ""}
                 onChange={(e) => setSelectedCategory(e.target.value || null)}
                 className="w-full px-4 py-2 border border-gray-200 rounded-lg
                          focus:outline-none focus:ring-2 focus:ring-primary-100 focus:border-primary-500"
               >
                 <option value="">All Categories</option>
-                {categories.map(cat => (
-                  <option key={cat.id} value={cat.id}>{cat.label}</option>
+                {categories.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.label}
+                  </option>
                 ))}
               </select>
             </div>
@@ -345,12 +373,24 @@ export default function Tools() {
             <table className="w-full min-w-[800px]">
               <thead>
                 <tr className="bg-gray-50 border-b border-gray-200">
-                  <th className="text-left text-sm font-medium text-gray-500 px-4 sm:px-6 py-3">Name</th>
-                  <th className="text-left text-sm font-medium text-gray-500 px-4 sm:px-6 py-3 hidden sm:table-cell">Provider</th>
-                  <th className="text-left text-sm font-medium text-gray-500 px-4 sm:px-6 py-3 hidden md:table-cell">Badge</th>
-                  <th className="text-right text-sm font-medium text-gray-500 px-4 sm:px-6 py-3 hidden lg:table-cell">Views</th>
-                  <th className="text-left text-sm font-medium text-gray-500 px-4 sm:px-6 py-3 hidden md:table-cell">Added</th>
-                  <th className="text-right text-sm font-medium text-gray-500 px-4 sm:px-6 py-3">Actions</th>
+                  <th className="text-left text-sm font-medium text-gray-500 px-4 sm:px-6 py-3">
+                    Name
+                  </th>
+                  <th className="text-left text-sm font-medium text-gray-500 px-4 sm:px-6 py-3 hidden sm:table-cell">
+                    Provider
+                  </th>
+                  <th className="text-left text-sm font-medium text-gray-500 px-4 sm:px-6 py-3 hidden md:table-cell">
+                    Badge
+                  </th>
+                  <th className="text-right text-sm font-medium text-gray-500 px-4 sm:px-6 py-3 hidden lg:table-cell">
+                    Views
+                  </th>
+                  <th className="text-left text-sm font-medium text-gray-500 px-4 sm:px-6 py-3 hidden md:table-cell">
+                    Added
+                  </th>
+                  <th className="text-right text-sm font-medium text-gray-500 px-4 sm:px-6 py-3">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
@@ -366,7 +406,9 @@ export default function Tools() {
                               className="w-full h-full object-cover"
                               onError={(e) => {
                                 const img = e.target as HTMLImageElement;
-                                img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(app.name)}&background=random`;
+                                img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                                  app.name
+                                )}&background=random`;
                               }}
                             />
                           ) : (
@@ -385,12 +427,20 @@ export default function Tools() {
                         </div>
                       </div>
                     </td>
-                    <td className="px-4 sm:px-6 py-4 text-gray-600 hidden sm:table-cell">{app.provider}</td>
+                    <td className="px-4 sm:px-6 py-4 text-gray-600 hidden sm:table-cell">
+                      {app.provider}
+                    </td>
                     <td className="px-4 sm:px-6 py-4 hidden md:table-cell">
                       {app.badge && (
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                                       ${app.badge === 'featured' ? 'bg-yellow-100 text-yellow-800' : 'bg-blue-100 text-blue-800'}`}>
-                          {app.badge === 'featured' ? '⭐ Featured' : '🔥 Top'}
+                        <span
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                       ${
+                                         app.badge === "featured"
+                                           ? "bg-yellow-100 text-yellow-800"
+                                           : "bg-blue-100 text-blue-800"
+                                       }`}
+                        >
+                          {app.badge === "featured" ? "⭐ Featured" : "🔥 Top"}
                         </span>
                       )}
                     </td>
@@ -411,8 +461,8 @@ export default function Tools() {
                               description: app.description,
                               url: app.url,
                               categories: app.categories,
-                              logo: app.logo || '',
-                              badge: app.badge
+                              logo: app.logo || "",
+                              badge: app.badge,
                             });
                           }}
                           className="text-gray-400 hover:text-gray-600"
@@ -447,9 +497,7 @@ export default function Tools() {
       </div>
 
       {/* Add/Edit Tool Modal */}
-      {(showAddModal || editingApp) && (
-        <ToolModal isEdit={!!editingApp} />
-      )}
+      {(showAddModal || editingApp) && <ToolModal isEdit={!!editingApp} />}
     </AdminLayout>
   );
 }
