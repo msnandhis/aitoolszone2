@@ -1,0 +1,18 @@
+# AI API Kit Robots.txt
+User-agent: *
+
+# Allow public pages
+Allow: /
+Allow: /about
+Allow: /privacy
+Allow: /terms
+Allow: /contact
+Allow: /sitemap.xml
+
+# Disallow admin and API routes
+Disallow: /admin/
+Disallow: /backend/
+Disallow: /api/
+
+# Sitemap
+Sitemap: https://aiapikit.com/sitemap.xml

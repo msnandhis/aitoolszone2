@@ -1,0 +1,25 @@
+{
+  "name": "AI API Kit - Directory of AI Model APIs for Developers",
+  "short_name": "AI API Kit",
+  "description": "AIAPIKit.com is a directory that lists AI model APIs for developers. Explore a wide range of tools for tasks like image generation, text analysis, and more. Curated by developers, for developers.",
+  "icons": [
+    {
+      "src": "/favicon/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#1e293b",
+  "background_color": "#1e293b",
+  "display": "standalone",
+  "start_url": "/",
+  "scope": "/",
+  "orientation": "any",
+  "categories": ["development", "tools", "ai", "api"],
+  "lang": "en-US"
+}
