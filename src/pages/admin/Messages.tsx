@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AdminLayout } from "./AdminLayout";
 import { styles } from "../../theme";
+import { Pagination } from "../../components/Pagination";
 import {
   Search,
   Mail,
@@ -55,6 +56,8 @@ export default function Messages() {
   const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
   const [editingNotes, setEditingNotes] = useState<string | null>(null);
   const [noteText, setNoteText] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const handleMarkAsRead = (messageId: string) => {
     setMessages(
@@ -86,6 +89,16 @@ export default function Messages() {
     const matchesStatus = !selectedStatus || message.status === selectedStatus;
     return matchesSearch && matchesStatus;
   });
+
+  // Pagination logic
+  const totalPages = Math.ceil(filteredMessages.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedMessages = filteredMessages.slice(startIndex, startIndex + itemsPerPage);
+
+  // Reset to first page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, selectedStatus]);
 
   return (
     <AdminLayout>
@@ -157,7 +170,7 @@ export default function Messages() {
 
         {/* Messages List */}
         <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-200">
-          {filteredMessages.map((message) => (
+          {paginatedMessages.map((message) => (
             <div key={message.id} className="p-6 hover:bg-gray-50">
               <div className="flex flex-col sm:flex-row items-start justify-between gap-4 sm:gap-6">
                 {/* Message Content */}
@@ -282,6 +295,20 @@ export default function Messages() {
             </div>
           ))}
         </div>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="mt-6">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={(page) => {
+                setCurrentPage(page);
+                window.scrollTo(0, 0);
+              }}
+            />
+          </div>
+        )}
       </div>
     </AdminLayout>
   );

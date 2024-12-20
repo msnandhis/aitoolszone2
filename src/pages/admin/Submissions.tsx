@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AdminLayout } from './AdminLayout';
 import { styles } from '../../theme';
+import { Pagination } from '../../components/Pagination';
 import {
   Search,
   CheckCircle,
@@ -86,6 +87,8 @@ export default function Submissions() {
   const [selectedStatus, setSelectedStatus] = useState<'pending' | 'approved' | 'rejected' | null>(null);
   const [editingNotes, setEditingNotes] = useState<string | null>(null);
   const [noteText, setNoteText] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const handleStatusChange = (submissionId: string, newStatus: Submission['status']) => {
     setSubmissions(submissions.map(sub =>
@@ -116,6 +119,16 @@ export default function Submissions() {
     const matchesStatus = !selectedStatus || submission.status === selectedStatus;
     return matchesSearch && matchesStatus;
   });
+
+  // Pagination logic
+  const totalPages = Math.ceil(filteredSubmissions.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedSubmissions = filteredSubmissions.slice(startIndex, startIndex + itemsPerPage);
+
+  // Reset to first page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, selectedStatus]);
 
   return (
     <AdminLayout>
@@ -173,7 +186,7 @@ export default function Submissions() {
 
         {/* Submissions List */}
         <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-200">
-          {filteredSubmissions.map((submission) => {
+          {paginatedSubmissions.map((submission) => {
             const StatusIcon = statusIcons[submission.status];
             return (
               <div key={submission.id} className="p-6">
@@ -296,6 +309,20 @@ export default function Submissions() {
             );
           })}
         </div>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="mt-6">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={(page) => {
+                setCurrentPage(page);
+                window.scrollTo(0, 0);
+              }}
+            />
+          </div>
+        )}
       </div>
     </AdminLayout>
   );

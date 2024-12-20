@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AdminLayout } from './AdminLayout';
 import { styles } from '../../theme';
+import { Pagination } from '../../components/Pagination';
 import {
   Search,
   UserPlus,
@@ -60,6 +61,8 @@ export default function Users() {
   const [searchQuery, setSearchQuery] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingUser, setEditingUser] = useState<AdminUser | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -98,6 +101,15 @@ export default function Users() {
     user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     user.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedUsers = filteredUsers.slice(startIndex, startIndex + itemsPerPage);
+
+  // Reset to first page when search changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery]);
 
   const UserModal = ({ isEdit = false }: { isEdit?: boolean }) => (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
@@ -234,19 +246,19 @@ export default function Users() {
 
         {/* Users Table */}
         <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-          <div className="overflow-x-auto min-h-[400px]">
-            <table className="w-full min-w-[800px]">
+          <div className="overflow-x-auto">
+            <table className="w-full">
               <thead>
                 <tr className="bg-gray-50 border-b border-gray-200">
-                  <th className="text-left text-sm font-medium text-gray-500 px-4 sm:px-6 py-3">User</th>
-                  <th className="text-left text-sm font-medium text-gray-500 px-4 sm:px-6 py-3 hidden sm:table-cell">Role</th>
-                  <th className="text-left text-sm font-medium text-gray-500 px-4 sm:px-6 py-3 hidden md:table-cell">Last Login</th>
-                  <th className="text-left text-sm font-medium text-gray-500 px-4 sm:px-6 py-3 hidden lg:table-cell">Joined</th>
-                  <th className="text-right text-sm font-medium text-gray-500 px-4 sm:px-6 py-3">Actions</th>
+                  <th className="text-left text-sm font-medium text-gray-500 px-4 sm:px-6 py-3 w-[40%]">User</th>
+                  <th className="text-left text-sm font-medium text-gray-500 px-4 sm:px-6 py-3 hidden sm:table-cell w-[15%]">Role</th>
+                  <th className="text-left text-sm font-medium text-gray-500 px-4 sm:px-6 py-3 hidden md:table-cell w-[20%]">Last Login</th>
+                  <th className="text-left text-sm font-medium text-gray-500 px-4 sm:px-6 py-3 hidden lg:table-cell w-[15%]">Joined</th>
+                  <th className="text-right text-sm font-medium text-gray-500 px-4 sm:px-6 py-3 w-[10%]">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {filteredUsers.map((user) => (
+                {paginatedUsers.map((user) => (
                   <tr key={user.id} className="hover:bg-gray-50">
                     <td className="px-4 sm:px-6 py-4">
                       <div className="flex items-center gap-2 sm:gap-3">
@@ -308,6 +320,19 @@ export default function Users() {
             </table>
           </div>
         </div>
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="mt-6">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={(page) => {
+                setCurrentPage(page);
+                window.scrollTo(0, 0);
+              }}
+            />
+          </div>
+        )}
       </div>
 
       {/* Add/Edit User Modal */}

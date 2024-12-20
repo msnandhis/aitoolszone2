@@ -9,6 +9,7 @@ export const styles = {
     base: 'inline-flex items-center justify-center font-medium rounded-lg transition-colors duration-200',
     primary: 'bg-[#FF5722] text-white hover:bg-[#F4511E] focus:ring-2 focus:ring-[#FF5722]/20',
     secondary: 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50 focus:ring-2 focus:ring-gray-200',
+    danger: 'bg-white text-red-600 border border-gray-200 hover:bg-red-50 hover:text-red-700 focus:ring-2 focus:ring-red-100',
     sizes: {
       sm: 'px-3 py-1.5 text-sm',
       md: 'px-4 py-2 text-sm',
