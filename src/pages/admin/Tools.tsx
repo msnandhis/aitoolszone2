@@ -287,19 +287,19 @@ export default function Tools() {
     <AdminLayout>
       <div className="space-y-8">
         {/* Page Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 px-4 sm:px-0">
           <div>
             <h1 className={`${styles.heading.h1} text-gray-900 mb-2`}>
               Tools
             </h1>
-            <p className="text-lg text-gray-600">
+            <p className="text-base lg:text-lg text-gray-600">
               Manage your AI tools directory.
             </p>
           </div>
           <button
             onClick={() => setShowAddModal(true)}
             className={`${styles.button.base} ${styles.button.primary} ${styles.button.sizes.md}
-                       flex items-center gap-2`}
+                       flex items-center justify-center gap-2 w-full sm:w-auto`}
           >
             <Plus className="w-5 h-5" />
             Add Tool
@@ -323,7 +323,7 @@ export default function Tools() {
             </div>
 
             {/* Category Filter */}
-            <div className="relative">
+            <div className="sm:w-48">
               <select
                 value={selectedCategory || ''}
                 onChange={(e) => setSelectedCategory(e.target.value || null)}
@@ -341,23 +341,23 @@ export default function Tools() {
 
         {/* Tools Table */}
         <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full">
+          <div className="overflow-x-auto min-h-[400px]">
+            <table className="w-full min-w-[800px]">
               <thead>
                 <tr className="bg-gray-50 border-b border-gray-200">
-                  <th className="text-left text-sm font-medium text-gray-500 px-6 py-3">Name</th>
-                  <th className="text-left text-sm font-medium text-gray-500 px-6 py-3">Provider</th>
-                  <th className="text-left text-sm font-medium text-gray-500 px-6 py-3">Badge</th>
-                  <th className="text-right text-sm font-medium text-gray-500 px-6 py-3">Views</th>
-                  <th className="text-left text-sm font-medium text-gray-500 px-6 py-3">Added</th>
-                  <th className="text-right text-sm font-medium text-gray-500 px-6 py-3">Actions</th>
+                  <th className="text-left text-sm font-medium text-gray-500 px-4 sm:px-6 py-3">Name</th>
+                  <th className="text-left text-sm font-medium text-gray-500 px-4 sm:px-6 py-3 hidden sm:table-cell">Provider</th>
+                  <th className="text-left text-sm font-medium text-gray-500 px-4 sm:px-6 py-3 hidden md:table-cell">Badge</th>
+                  <th className="text-right text-sm font-medium text-gray-500 px-4 sm:px-6 py-3 hidden lg:table-cell">Views</th>
+                  <th className="text-left text-sm font-medium text-gray-500 px-4 sm:px-6 py-3 hidden md:table-cell">Added</th>
+                  <th className="text-right text-sm font-medium text-gray-500 px-4 sm:px-6 py-3">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {applications.map((app) => (
                   <tr key={app.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
+                    <td className="px-4 sm:px-6 py-4">
+                      <div className="flex items-center gap-2 sm:gap-3">
                         <div className="w-10 h-10 rounded-lg overflow-hidden bg-gray-50 flex items-center justify-center border border-gray-100">
                           {app.logo ? (
                             <img
@@ -385,8 +385,8 @@ export default function Tools() {
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-gray-600">{app.provider}</td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 sm:px-6 py-4 text-gray-600 hidden sm:table-cell">{app.provider}</td>
+                    <td className="px-4 sm:px-6 py-4 hidden md:table-cell">
                       {app.badge && (
                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
                                        ${app.badge === 'featured' ? 'bg-yellow-100 text-yellow-800' : 'bg-blue-100 text-blue-800'}`}>
@@ -394,13 +394,13 @@ export default function Tools() {
                         </span>
                       )}
                     </td>
-                    <td className="px-6 py-4 text-right text-gray-600">
+                    <td className="px-4 sm:px-6 py-4 text-right text-gray-600 hidden lg:table-cell">
                       {app.views.toLocaleString()}
                     </td>
-                    <td className="px-6 py-4 text-gray-600">
+                    <td className="px-4 sm:px-6 py-4 text-gray-600 hidden md:table-cell">
                       {new Date(app.created_at).toLocaleDateString()}
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 sm:px-6 py-4">
                       <div className="flex items-center justify-end gap-3">
                         <button
                           onClick={() => {

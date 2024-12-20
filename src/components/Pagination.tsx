@@ -60,27 +60,27 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
   };
 
   return (
-    <div className="flex justify-center items-center space-x-2">
+    <div className="flex justify-center items-center gap-1 sm:gap-2">
       <button
         onClick={() => onPageChange(current - 1)}
         disabled={current === 1}
-        className="p-2 rounded-lg text-gray-400 hover:text-gray-300 hover:bg-gray-700 
+        className="p-1 sm:p-1.5 rounded text-gray-500 hover:text-gray-700 hover:bg-gray-100 
                  disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
       >
-        <ChevronLeft className="h-5 w-5" />
+        <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
       </button>
 
       {getPageNumbers().map((page, index) => (
         <React.Fragment key={index}>
           {page === '...' ? (
-            <span className="px-3 py-2 text-gray-400">...</span>
+            <span className="px-2 text-sm text-gray-400">...</span>
           ) : (
             <button
               onClick={() => typeof page === 'number' && onPageChange(page)}
-              className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors duration-200
+              className={`min-w-[28px] h-7 sm:min-w-[32px] sm:h-8 rounded text-xs sm:text-sm font-medium transition-colors duration-200 flex items-center justify-center
                        ${current === page
-                         ? 'bg-blue-600 text-white'
-                         : 'text-gray-400 hover:text-gray-300 hover:bg-gray-700'
+                         ? 'bg-primary-500 text-white'
+                         : 'text-gray-600 hover:text-gray-800 hover:bg-gray-100'
                        }`}
             >
               {page}
@@ -92,10 +92,10 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
       <button
         onClick={() => onPageChange(current + 1)}
         disabled={current === total}
-        className="p-2 rounded-lg text-gray-400 hover:text-gray-300 hover:bg-gray-700 
+        className="p-1 sm:p-1.5 rounded text-gray-500 hover:text-gray-700 hover:bg-gray-100 
                  disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
       >
-        <ChevronRight className="h-5 w-5" />
+        <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
       </button>
     </div>
   );

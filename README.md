@@ -1,64 +1,123 @@
-# AI API Kit
+# AI Tools Zone Admin Panel
 
-A web application for managing and showcasing AI API resources.
+A responsive admin panel for managing AI tools directory, built with React, TypeScript, and Tailwind CSS.
 
 ## Features
 
-- Public resource browsing
-- Admin panel for resource management
-- Categories management
-- User submissions handling
-- Message management
-- User management
+- 📱 Fully responsive design for mobile, tablet, and desktop
+- 🎨 Modern UI with Tailwind CSS
+- 📊 Dashboard with analytics overview
+- 🛠️ Tools management with search and filtering
+- 📝 Category management
+- 📨 Message handling system
+- 👥 User management
+- 📬 Submissions review system
+- 📥 Inbox for communications
 
-## Admin Access
+## Getting Started
 
-The application uses static authentication for the admin panel. Use the following credentials to log in:
+### Prerequisites
 
+- Node.js >= 18.18.2
+- npm >= 9.8.1
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/aitoolszone2.git
+cd aitoolszone2
 ```
-Email: admin@example.com
-Password: admin123
-```
 
-## Development
-
-1. Install dependencies:
+2. Install dependencies:
 ```bash
 npm install
 ```
 
-2. Start the development server:
+3. Set up environment variables:
+```bash
+cp .env.example .env
+```
+Edit `.env` and configure your FTP deployment settings:
+```
+FTP_HOST=your-ftp-host.com
+FTP_USER=your-username
+FTP_PASS=your-password
+```
+
+### Development
+
+Start the development server:
 ```bash
 npm run dev
 ```
 
-3. Open [http://localhost:5173](http://localhost:5173) in your browser.
+### Building for Production
 
-## Pages
+Build the project:
+```bash
+npm run build
+```
 
-### Public Pages
-- `/` - Resource listing
-- `/about` - About page
-- `/contact` - Contact page
-- `/privacy` - Privacy policy
-- `/terms` - Terms of service
+Preview the production build:
+```bash
+npm run preview
+```
 
-### Admin Pages
-- `/admin` - Admin dashboard
-- `/admin/resources` - Resource management
-- `/admin/categories` - Category management
-- `/admin/submissions` - Submission management
-- `/admin/messages` - Message management
-- `/admin/users` - User management
+## Deployment
 
-## Tech Stack
+### Manual Deployment
 
-- React
-- TypeScript
-- Tailwind CSS
-- React Router
-- Lucide Icons
+Deploy to your FTP server:
+```bash
+npm run deploy
+```
+
+This will:
+1. Validate environment variables
+2. Build the project
+3. Upload files to your FTP server
+
+### Watch Mode Deployment
+
+For automatic deployment on file changes:
+```bash
+npm run watch-deploy
+```
+
+This will:
+1. Watch for file changes in src/ and public/
+2. Automatically build and deploy when changes are detected
+3. Handle multiple rapid changes efficiently
+4. Provide colored console output for better visibility
+
+### Retry Failed Uploads
+
+If some files fail to upload:
+```bash
+npm run deploy:retry
+```
+
+## Project Structure
+
+```
+src/
+├── components/        # Reusable components
+├── pages/
+│   └── admin/        # Admin panel pages
+├── contexts/         # React contexts
+├── services/         # API services
+├── shared/          # Shared components/utilities
+├── types/           # TypeScript types
+└── utils/           # Utility functions
+```
+
+## Contributing
+
+1. Create a feature branch
+2. Make your changes
+3. Submit a pull request
 
 ## License
 
-MIT
+This project is licensed under the MIT License - see the LICENSE file for details.

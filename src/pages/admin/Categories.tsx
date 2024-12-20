@@ -1,52 +1,44 @@
-import React, { useState } from 'react';
-import { AdminLayout } from './AdminLayout';
-import { styles } from '../../theme';
-import {
-  Plus,
-  Search,
-  Edit2,
-  Trash2,
-  BarChart2,
-  Save,
-  X,
-} from 'lucide-react';
-import type { Category } from '../../types';
+import React, { useState } from "react";
+import { AdminLayout } from "./AdminLayout";
+import { styles } from "../../theme";
+import { Plus, Search, Edit2, Trash2, BarChart2, Save, X } from "lucide-react";
+import type { Category } from "../../types";
 
 // Static data for demo
 const initialCategories: Category[] = [
   {
-    id: 'cat_1',
-    label: 'Text Generation',
-    slug: 'text-generation',
+    id: "cat_1",
+    label: "Text Generation",
+    slug: "text-generation",
     total_applications: 10,
-    created_at: '2024-01-01T00:00:00Z',
-    updated_at: '2024-01-01T00:00:00Z'
+    created_at: "2024-01-01T00:00:00Z",
+    updated_at: "2024-01-01T00:00:00Z",
   },
   {
-    id: 'cat_2',
-    label: 'Image Generation',
-    slug: 'image-generation',
+    id: "cat_2",
+    label: "Image Generation",
+    slug: "image-generation",
     total_applications: 1,
-    created_at: '2024-01-01T00:00:00Z',
-    updated_at: '2024-01-01T00:00:00Z'
-  }
+    created_at: "2024-01-01T00:00:00Z",
+    updated_at: "2024-01-01T00:00:00Z",
+  },
 ];
 
 export default function Categories() {
   const [categories, setCategories] = useState<Category[]>(initialCategories);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [formData, setFormData] = useState({
-    label: '',
-    slug: ''
+    label: "",
+    slug: "",
   });
 
   const generateSlug = (text: string) => {
     return text
       .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/(^-|-$)/g, '');
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
   };
 
   const handleAddCategory = () => {
@@ -56,7 +48,7 @@ export default function Categories() {
       slug: formData.slug || generateSlug(formData.label),
       total_applications: 0,
       created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
+      updated_at: new Date().toISOString(),
     };
     setCategories([...categories, newCategory]);
     setShowAddModal(false);
@@ -65,41 +57,43 @@ export default function Categories() {
 
   const handleUpdateCategory = () => {
     if (!editingCategory) return;
-    setCategories(categories.map(cat =>
-      cat.id === editingCategory.id
-        ? {
-            ...cat,
-            label: formData.label,
-            slug: formData.slug || generateSlug(formData.label),
-            updated_at: new Date().toISOString()
-          }
-        : cat
-    ));
+    setCategories(
+      categories.map((cat) =>
+        cat.id === editingCategory.id
+          ? {
+              ...cat,
+              label: formData.label,
+              slug: formData.slug || generateSlug(formData.label),
+              updated_at: new Date().toISOString(),
+            }
+          : cat
+      )
+    );
     setEditingCategory(null);
     resetForm();
   };
 
   const handleDeleteCategory = (categoryId: string) => {
-    setCategories(categories.filter(cat => cat.id !== categoryId));
+    setCategories(categories.filter((cat) => cat.id !== categoryId));
   };
 
   const resetForm = () => {
     setFormData({
-      label: '',
-      slug: ''
+      label: "",
+      slug: "",
     });
   };
 
-  const filteredCategories = categories.filter(category =>
+  const filteredCategories = categories.filter((category) =>
     category.label.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const CategoryModal = ({ isEdit = false }: { isEdit?: boolean }) => (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+      <div className="bg-white rounded-xl p-4 sm:p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-display font-bold text-gray-900">
-            {isEdit ? 'Edit Category' : 'Add New Category'}
+            {isEdit ? "Edit Category" : "Add New Category"}
           </h2>
           <button
             onClick={() => {
@@ -113,25 +107,29 @@ export default function Categories() {
           </button>
         </div>
 
-        <form onSubmit={(e) => {
-          e.preventDefault();
-          isEdit ? handleUpdateCategory() : handleAddCategory();
-        }} className="space-y-4">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            isEdit ? handleUpdateCategory() : handleAddCategory();
+          }}
+          className="space-y-4"
+        >
           <div>
-            <label htmlFor="label" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="label"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Category Name
             </label>
             <input
               type="text"
               id="label"
               value={formData.label}
-              onChange={(e) => {
-                setFormData({
-                  ...formData,
-                  label: e.target.value,
-                  slug: generateSlug(e.target.value)
-                });
-              }}
+              onChange={(e) => setFormData(prev => ({
+                ...prev,
+                label: e.target.value,
+                slug: generateSlug(e.target.value)
+              }))}
               required
               className="w-full px-4 py-2 border border-gray-200 rounded-lg
                        focus:ring-2 focus:ring-primary-100 focus:border-primary-500"
@@ -139,14 +137,20 @@ export default function Categories() {
           </div>
 
           <div>
-            <label htmlFor="slug" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="slug"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Slug
             </label>
             <input
               type="text"
               id="slug"
               value={formData.slug}
-              onChange={(e) => setFormData({ ...formData, slug: generateSlug(e.target.value) })}
+              onChange={(e) => setFormData(prev => ({
+                ...prev,
+                slug: generateSlug(e.target.value)
+              }))}
               required
               className="w-full px-4 py-2 border border-gray-200 rounded-lg
                        focus:ring-2 focus:ring-primary-100 focus:border-primary-500"
@@ -171,7 +175,7 @@ export default function Categories() {
                          flex items-center gap-2`}
             >
               <Save className="w-4 h-4" />
-              {isEdit ? 'Update Category' : 'Add Category'}
+              {isEdit ? "Update Category" : "Add Category"}
             </button>
           </div>
         </form>
@@ -183,19 +187,19 @@ export default function Categories() {
     <AdminLayout>
       <div className="space-y-8">
         {/* Page Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h1 className={`${styles.heading.h1} text-gray-900 mb-2`}>
               Categories
             </h1>
-            <p className="text-lg text-gray-600">
+            <p className="text-base lg:text-lg text-gray-600">
               Manage your application categories.
             </p>
           </div>
           <button
             onClick={() => setShowAddModal(true)}
             className={`${styles.button.base} ${styles.button.primary} ${styles.button.sizes.md}
-                       flex items-center gap-2`}
+                       flex items-center justify-center gap-2 w-full sm:w-auto`}
           >
             <Plus className="w-5 h-5" />
             Add Category
@@ -204,13 +208,13 @@ export default function Categories() {
 
         {/* Search */}
         <div className="bg-white rounded-xl border border-gray-200 p-4">
-          <div className="relative max-w-md">
+          <div className="relative w-full">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
             <input
               type="text"
               placeholder="Search categories..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => setSearchQuery(prev => e.target.value)}
               className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg
                        focus:outline-none focus:ring-2 focus:ring-primary-100 focus:border-primary-500"
             />
@@ -218,28 +222,28 @@ export default function Categories() {
         </div>
 
         {/* Categories Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           {filteredCategories.map((category) => (
             <div
               key={category.id}
-              className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-md transition-shadow duration-200"
+              className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6 hover:shadow-md transition-shadow duration-200"
             >
-              <div className="flex items-start justify-between">
-                <div>
-                  <h3 className="font-display text-lg font-semibold text-gray-900 mb-1">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 sm:gap-2">
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-display text-lg font-semibold text-gray-900 mb-1 truncate">
                     {category.label}
                   </h3>
-                  <p className="text-sm text-gray-500 mb-4">
+                  <p className="text-sm text-gray-500 mb-2 sm:mb-4">
                     Slug: {category.slug}
                   </p>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 self-end sm:self-start">
                   <button
                     onClick={() => {
                       setEditingCategory(category);
                       setFormData({
                         label: category.label,
-                        slug: category.slug
+                        slug: category.slug,
                       });
                     }}
                     className="text-gray-400 hover:text-gray-600"

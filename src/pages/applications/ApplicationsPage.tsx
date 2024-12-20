@@ -46,12 +46,18 @@ export default function ApplicationsPage() {
     setSearchQuery(query);
   };
 
-  // Filter applications based on search query
+  // Filter applications based on search query and selected category
   const filteredApplications = applications.filter(application => {
     const matchesSearch = !searchQuery || 
       application.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       application.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
       application.provider.toLowerCase().includes(searchQuery.toLowerCase());
+
+    // If a category is selected, show all applications in that category
+    if (selectedCategory) {
+      const categoryId = application.categories[0]?.id;
+      return categoryId === selectedCategory && matchesSearch;
+    }
     
     return matchesSearch;
   });
@@ -81,6 +87,7 @@ export default function ApplicationsPage() {
           ) : filteredApplications.length > 0 ? (
             <CategorySection
               applications={filteredApplications}
+              onCategoryClick={(category) => setSelectedCategory(category)}
             />
           ) : (
             <div className="text-center py-12 bg-white rounded-xl border border-gray-200">

@@ -100,8 +100,8 @@ export default function Users() {
   );
 
   const UserModal = ({ isEdit = false }: { isEdit?: boolean }) => (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+      <div className="bg-white rounded-xl p-4 sm:p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-display font-bold text-gray-900">
             {isEdit ? 'Edit User' : 'Add New User'}
@@ -110,9 +110,9 @@ export default function Users() {
             onClick={() => {
               setShowAddModal(false);
               setEditingUser(null);
-              setFormData({ name: '', email: '', role: 'admin' });
+              setFormData(prev => ({ name: '', email: '', role: 'admin' }));
             }}
-            className="text-gray-400 hover:text-gray-600"
+            className="p-1.5 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100"
           >
             <X className="w-5 h-5" />
           </button>
@@ -130,9 +130,9 @@ export default function Users() {
               type="text"
               id="name"
               value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
               required
-              className="w-full px-4 py-2 border border-gray-200 rounded-lg
+              className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm
                        focus:ring-2 focus:ring-primary-100 focus:border-primary-500"
             />
           </div>
@@ -145,9 +145,9 @@ export default function Users() {
               type="email"
               id="email"
               value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
               required
-              className="w-full px-4 py-2 border border-gray-200 rounded-lg
+              className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm
                        focus:ring-2 focus:ring-primary-100 focus:border-primary-500"
             />
           </div>
@@ -159,8 +159,8 @@ export default function Users() {
             <select
               id="role"
               value={formData.role}
-              onChange={(e) => setFormData({ ...formData, role: e.target.value as 'admin' | 'super_admin' })}
-              className="w-full px-4 py-2 border border-gray-200 rounded-lg
+              onChange={(e) => setFormData(prev => ({ ...prev, role: e.target.value as 'admin' | 'super_admin' }))}
+              className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm
                        focus:ring-2 focus:ring-primary-100 focus:border-primary-500"
             >
               <option value="admin">Admin</option>
@@ -168,22 +168,22 @@ export default function Users() {
             </select>
           </div>
 
-          <div className="flex justify-end gap-3 mt-6">
+          <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3 mt-6">
             <button
               type="button"
               onClick={() => {
                 setShowAddModal(false);
                 setEditingUser(null);
-                setFormData({ name: '', email: '', role: 'admin' });
+                setFormData(prev => ({ name: '', email: '', role: 'admin' }));
               }}
-              className={`${styles.button.base} ${styles.button.secondary} ${styles.button.sizes.md}`}
+              className={`${styles.button.base} ${styles.button.secondary} ${styles.button.sizes.md} w-full sm:w-auto`}
             >
               Cancel
             </button>
             <button
               type="submit"
               className={`${styles.button.base} ${styles.button.primary} ${styles.button.sizes.md}
-                         flex items-center gap-2`}
+                         flex items-center justify-center gap-2 w-full sm:w-auto`}
             >
               <Save className="w-4 h-4" />
               {isEdit ? 'Update User' : 'Add User'}
@@ -198,19 +198,19 @@ export default function Users() {
     <AdminLayout>
       <div className="space-y-8">
         {/* Page Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 px-4 sm:px-0">
           <div>
             <h1 className={`${styles.heading.h1} text-gray-900 mb-2`}>
               Users
             </h1>
-            <p className="text-lg text-gray-600">
+            <p className="text-base lg:text-lg text-gray-600">
               Manage administrator accounts.
             </p>
           </div>
           <button
             onClick={() => setShowAddModal(true)}
             className={`${styles.button.base} ${styles.button.primary} ${styles.button.sizes.md}
-                       flex items-center gap-2`}
+                       flex items-center justify-center gap-2 w-full sm:w-auto`}
           >
             <UserPlus className="w-5 h-5" />
             Add User
@@ -219,13 +219,13 @@ export default function Users() {
 
         {/* Search */}
         <div className="bg-white rounded-xl border border-gray-200 p-4">
-          <div className="relative max-w-md">
+          <div className="relative w-full">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
             <input
               type="text"
               placeholder="Search users..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => setSearchQuery(prev => e.target.value)}
               className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg
                        focus:outline-none focus:ring-2 focus:ring-primary-100 focus:border-primary-500"
             />
@@ -234,45 +234,51 @@ export default function Users() {
 
         {/* Users Table */}
         <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full">
+          <div className="overflow-x-auto min-h-[400px]">
+            <table className="w-full min-w-[800px]">
               <thead>
                 <tr className="bg-gray-50 border-b border-gray-200">
-                  <th className="text-left text-sm font-medium text-gray-500 px-6 py-3">User</th>
-                  <th className="text-left text-sm font-medium text-gray-500 px-6 py-3">Role</th>
-                  <th className="text-left text-sm font-medium text-gray-500 px-6 py-3">Last Login</th>
-                  <th className="text-left text-sm font-medium text-gray-500 px-6 py-3">Joined</th>
-                  <th className="text-right text-sm font-medium text-gray-500 px-6 py-3">Actions</th>
+                  <th className="text-left text-sm font-medium text-gray-500 px-4 sm:px-6 py-3">User</th>
+                  <th className="text-left text-sm font-medium text-gray-500 px-4 sm:px-6 py-3 hidden sm:table-cell">Role</th>
+                  <th className="text-left text-sm font-medium text-gray-500 px-4 sm:px-6 py-3 hidden md:table-cell">Last Login</th>
+                  <th className="text-left text-sm font-medium text-gray-500 px-4 sm:px-6 py-3 hidden lg:table-cell">Joined</th>
+                  <th className="text-right text-sm font-medium text-gray-500 px-4 sm:px-6 py-3">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {filteredUsers.map((user) => (
                   <tr key={user.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                    <td className="px-4 sm:px-6 py-4">
+                      <div className="flex items-center gap-2 sm:gap-3">
+                        <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
                           <User className="w-4 h-4 text-gray-500" />
                         </div>
-                        <div>
-                          <div className="font-medium text-gray-900">{user.name}</div>
-                          <div className="text-sm text-gray-500">{user.email}</div>
+                        <div className="min-w-0">
+                          <div className="font-medium text-gray-900 truncate">{user.name}</div>
+                          <div className="text-sm text-gray-500 truncate">{user.email}</div>
+                          <div className="sm:hidden mt-1">
+                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                         ${roleColors[user.role]}`}>
+                              {user.role === 'super_admin' ? 'Super Admin' : 'Admin'}
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-4 sm:px-6 py-4 hidden sm:table-cell">
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
                                      ${roleColors[user.role]}`}>
                         {user.role === 'super_admin' ? 'Super Admin' : 'Admin'}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-500">
+                    <td className="px-4 sm:px-6 py-4 text-sm text-gray-500 hidden md:table-cell">
                       {user.lastLogin ? new Date(user.lastLogin).toLocaleDateString() : 'Never'}
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-500">
+                    <td className="px-4 sm:px-6 py-4 text-sm text-gray-500 hidden lg:table-cell">
                       {new Date(user.created_at).toLocaleDateString()}
                     </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center justify-end gap-3">
+                    <td className="px-4 sm:px-6 py-4">
+                      <div className="flex items-center justify-end gap-2 sm:gap-3">
                         <button
                           onClick={() => {
                             setEditingUser(user);
@@ -282,14 +288,14 @@ export default function Users() {
                               role: user.role
                             });
                           }}
-                          className="text-gray-400 hover:text-gray-600"
+                          className="p-1.5 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100"
                           title="Edit"
                         >
                           <Edit2 className="w-5 h-5" />
                         </button>
                         <button
                           onClick={() => handleDeleteUser(user.id)}
-                          className="text-gray-400 hover:text-red-600"
+                          className="p-1.5 text-gray-400 hover:text-red-600 rounded-lg hover:bg-gray-100"
                           title="Delete"
                         >
                           <Trash2 className="w-5 h-5" />

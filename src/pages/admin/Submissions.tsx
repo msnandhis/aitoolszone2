@@ -121,33 +121,33 @@ export default function Submissions() {
     <AdminLayout>
       <div className="space-y-8">
         {/* Page Header */}
-        <div>
+        <div className="px-4 sm:px-0">
           <h1 className={`${styles.heading.h1} text-gray-900 mb-2`}>
             Submissions
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className="text-base lg:text-lg text-gray-600">
             Review and manage API submissions.
           </p>
         </div>
 
         {/* Filters */}
         <div className="bg-white rounded-xl border border-gray-200 p-4">
-          <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex flex-col gap-4">
             {/* Search */}
-            <div className="flex-1 relative">
+            <div className="relative w-full">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input
                 type="text"
                 placeholder="Search submissions..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => setSearchQuery(prev => e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg
                          focus:outline-none focus:ring-2 focus:ring-primary-100 focus:border-primary-500"
               />
             </div>
 
             {/* Status Filter */}
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <button
                 onClick={() => setSelectedStatus(null)}
                 className={`${styles.button.base} ${styles.button.sizes.sm}
@@ -177,12 +177,12 @@ export default function Submissions() {
             const StatusIcon = statusIcons[submission.status];
             return (
               <div key={submission.id} className="p-6">
-                <div className="flex items-start justify-between gap-6">
+                <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
                   {/* Submission Content */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-3 mb-2">
-                      <StatusIcon className={`w-5 h-5 ${statusColors[submission.status].split(' ')[1]}`} />
-                      <h3 className="font-medium text-gray-900">
+                  <div className="flex-1 min-w-0 w-full">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-2">
+                      <StatusIcon className={`w-5 h-5 ${statusColors[submission.status].split(' ')[1]} flex-shrink-0`} />
+                      <h3 className="font-medium text-gray-900 truncate">
                         {submission.tool_name}
                       </h3>
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
@@ -190,24 +190,24 @@ export default function Submissions() {
                         {submission.status}
                       </span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-500 mb-3">
-                      <span>{submission.name}</span>
-                      <span>•</span>
-                      <span>{submission.email}</span>
-                      <span>•</span>
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 text-sm text-gray-500 mb-3">
+                      <span className="truncate">{submission.name}</span>
+                      <span className="hidden sm:inline">•</span>
+                      <span className="truncate">{submission.email}</span>
+                      <span className="hidden sm:inline">•</span>
                       <span>{new Date(submission.created_at).toLocaleDateString()}</span>
                     </div>
-                    <p className="text-gray-600 mb-6">
+                    <p className="text-gray-600 mb-4 sm:mb-6">
                       {submission.description}
                     </p>
 
                     {/* Documentation Link */}
-                    <div className="mb-8">
+                    <div className="mb-4 sm:mb-8">
                       <a
                         href={submission.api_link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-sm text-primary-600 hover:text-primary-700"
+                        className="inline-flex items-center gap-1 text-sm text-primary-600 hover:text-primary-700 px-2 py-1 -ml-2 rounded-md hover:bg-gray-100"
                       >
                         <ExternalLink className="w-4 h-4" />
                         View API Documentation
@@ -216,29 +216,29 @@ export default function Submissions() {
 
                     {/* Admin Notes */}
                     {editingNotes === submission.id ? (
-                      <div className="mt-4">
+                      <div className="mt-4 sm:mt-6">
                         <textarea
                           value={noteText}
                           onChange={(e) => setNoteText(e.target.value)}
                           placeholder="Add admin notes..."
-                          className="w-full px-4 py-2 border border-gray-200 rounded-lg
+                          className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm
                                    focus:ring-2 focus:ring-primary-100 focus:border-primary-500"
                           rows={2}
                         />
-                        <div className="mt-2 flex justify-end gap-2">
+                        <div className="mt-2 flex flex-col sm:flex-row justify-end gap-2">
                           <button
                             onClick={() => {
                               setEditingNotes(null);
                               setNoteText('');
                             }}
-                            className={`${styles.button.base} ${styles.button.secondary} ${styles.button.sizes.sm}`}
+                            className={`${styles.button.base} ${styles.button.secondary} ${styles.button.sizes.sm} w-full sm:w-auto`}
                           >
                             Cancel
                           </button>
                           <button
                             onClick={() => handleSaveNotes(submission.id)}
                             className={`${styles.button.base} ${styles.button.primary} ${styles.button.sizes.sm}
-                                      flex items-center gap-2`}
+                                      flex items-center justify-center gap-2 w-full sm:w-auto`}
                           >
                             <Save className="w-4 h-4" />
                             Save Notes
@@ -246,7 +246,7 @@ export default function Submissions() {
                         </div>
                       </div>
                     ) : submission.admin_notes ? (
-                      <div className="mt-4 bg-gray-50 p-4 rounded-lg">
+                      <div className="mt-4 sm:mt-6 bg-gray-50 p-4 rounded-lg">
                         <div className="flex items-center justify-between mb-2">
                           <h4 className="text-sm font-medium text-gray-900">Admin Notes</h4>
                           <button
@@ -254,12 +254,12 @@ export default function Submissions() {
                               setEditingNotes(submission.id);
                               setNoteText(submission.admin_notes || '');
                             }}
-                            className="text-sm text-primary-600 hover:text-primary-700"
+                            className="text-sm text-primary-600 hover:text-primary-700 px-2 py-1 rounded-md hover:bg-gray-100"
                           >
                             Edit
                           </button>
                         </div>
-                        <p className="text-sm text-gray-600">{submission.admin_notes}</p>
+                        <p className="text-sm text-gray-600 whitespace-pre-wrap">{submission.admin_notes}</p>
                       </div>
                     ) : (
                       <button
@@ -267,7 +267,7 @@ export default function Submissions() {
                           setEditingNotes(submission.id);
                           setNoteText('');
                         }}
-                        className="mt-4 text-sm text-primary-600 hover:text-primary-700"
+                        className="mt-4 sm:mt-6 text-sm text-primary-600 hover:text-primary-700 px-2 py-1 -ml-2 rounded-md hover:bg-gray-100"
                       >
                         Add Notes
                       </button>
@@ -275,7 +275,7 @@ export default function Submissions() {
                   </div>
 
                   {/* Status Actions */}
-                  <div className="flex flex-col gap-2">
+                  <div className="flex sm:flex-col gap-2 flex-wrap sm:flex-nowrap">
                     {(['approved', 'rejected', 'pending'] as const).map(status => (
                       <button
                         key={status}

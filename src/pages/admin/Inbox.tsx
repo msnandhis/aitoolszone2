@@ -42,11 +42,11 @@ export default function Inbox() {
     <AdminLayout>
       <div className="space-y-8">
         {/* Page Header */}
-        <div>
+        <div className="px-4 sm:px-0">
           <h1 className={`${styles.heading.h1} text-gray-900 mb-2`}>
             Inbox
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className="text-base lg:text-lg text-gray-600">
             Manage your messages and inquiries
           </p>
         </div>
@@ -57,46 +57,48 @@ export default function Inbox() {
             {sampleMessages.map((message) => (
               <div
                 key={message.id}
-                className={`p-4 hover:bg-gray-50 ${!message.read ? 'bg-primary-50' : ''}`}
+                className={`p-4 sm:p-6 hover:bg-gray-50 ${!message.read ? 'bg-primary-50' : ''}`}
               >
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-2">
-                    <MessageSquare className={`w-5 h-5 ${!message.read ? 'text-primary-600' : 'text-gray-400'}`} />
-                    <h3 className="font-medium text-gray-900">
-                      {message.from}
-                    </h3>
-                    <span className="text-sm text-gray-500">
-                      ({message.email})
-                    </span>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-4 mb-3">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <MessageSquare className={`w-5 h-5 flex-shrink-0 ${!message.read ? 'text-primary-600' : 'text-gray-400'}`} />
+                    <div className="min-w-0">
+                      <h3 className="font-medium text-gray-900 truncate">
+                        {message.from}
+                      </h3>
+                      <span className="text-sm text-gray-500 truncate block">
+                        {message.email}
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 self-end sm:self-auto">
                     <button
-                      className={`text-gray-400 hover:text-yellow-500 ${message.starred ? 'text-yellow-500' : ''}`}
+                      className={`p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-yellow-500 ${message.starred ? 'text-yellow-500' : ''}`}
                       title="Star"
                     >
                       <Star className="w-5 h-5" />
                     </button>
                     <button
-                      className="text-gray-400 hover:text-gray-600"
+                      className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600"
                       title="Archive"
                     >
                       <Archive className="w-5 h-5" />
                     </button>
                     <button
-                      className="text-gray-400 hover:text-red-600"
+                      className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-red-600"
                       title="Delete"
                     >
                       <Trash2 className="w-5 h-5" />
                     </button>
                   </div>
                 </div>
-                <h4 className="font-medium text-gray-800 mb-1">
+                <h4 className="font-medium text-gray-800 mb-2">
                   {message.subject}
                 </h4>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-600 mb-2">
                   {message.message}
                 </p>
-                <div className="mt-2 text-xs text-gray-500">
+                <div className="text-xs text-gray-500">
                   {new Date(message.date).toLocaleString()}
                 </div>
               </div>

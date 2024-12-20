@@ -27,14 +27,14 @@ export function CategoryFilter({ selectedCategory, onSelectCategory }: CategoryF
   };
 
   return (
-    <div className="bg-gray-50 border-b border-gray-200 overflow-hidden">
+    <div className="bg-gray-50 border-b border-gray-200">
       <div className={`${styles.container} py-4`}>
-        <div className="flex items-center gap-3 overflow-x-auto pb-2 scrollbar-hide -mx-4 px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-wrap gap-2 px-4 sm:px-6 lg:px-8">
           <button
             onClick={() => onSelectCategory(null)}
             className={`
-              flex-none rounded-full px-4 py-1.5 text-sm font-medium
-              transition-colors duration-200
+              inline-flex items-center rounded-full px-3.5 py-1.5 text-sm font-medium
+              transition-colors duration-200 whitespace-nowrap
               ${!selectedCategory
                 ? 'bg-primary-500 text-white'
                 : 'bg-white text-gray-600 border border-gray-200 hover:border-gray-300 hover:bg-gray-50'
@@ -48,8 +48,8 @@ export function CategoryFilter({ selectedCategory, onSelectCategory }: CategoryF
               key={category.id}
               onClick={() => onSelectCategory(category.id)}
               className={`
-                flex-none rounded-full px-4 py-1.5 text-sm font-medium
-                transition-colors duration-200
+                inline-flex items-center rounded-full px-3.5 py-1.5 text-sm font-medium
+                transition-colors duration-200 whitespace-nowrap
                 ${selectedCategory === category.id
                   ? 'bg-primary-500 text-white'
                   : 'bg-white text-gray-600 border border-gray-200 hover:border-gray-300 hover:bg-gray-50'
@@ -58,7 +58,7 @@ export function CategoryFilter({ selectedCategory, onSelectCategory }: CategoryF
             >
               {category.label}
               {category.total_applications > 0 && (
-                <span className="ml-2 text-xs">
+                <span className="ml-1 text-xs opacity-75">
                   ({category.total_applications})
                 </span>
               )}

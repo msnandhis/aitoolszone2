@@ -112,31 +112,31 @@ export default function Dashboard() {
     <AdminLayout>
       <div className="space-y-8">
         {/* Page Header */}
-        <div>
+        <div className="px-4 sm:px-0">
           <h1 className={`${styles.heading.h1} text-gray-900 mb-2`}>
             Dashboard
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className="text-base lg:text-lg text-gray-600">
             Overview of your AI Tools Directory
           </p>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {stats.map((stat) => (
             <div
               key={stat.name}
-              className="bg-white rounded-xl border border-gray-200 p-6"
+              className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6"
             >
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-lg bg-primary-50 flex items-center justify-center">
-                  <stat.icon className="w-6 h-6 text-primary-600" />
+              <div className="flex items-center gap-3 sm:gap-4">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-primary-50 flex items-center justify-center">
+                  <stat.icon className="w-5 h-5 sm:w-6 sm:h-6 text-primary-600" />
                 </div>
                 <div>
                   <p className="text-sm font-medium text-gray-600">
                     {stat.name}
                   </p>
-                  <p className="text-2xl font-semibold text-gray-900">
+                  <p className="text-xl sm:text-2xl font-semibold text-gray-900">
                     {stat.value}
                   </p>
                 </div>
@@ -146,7 +146,7 @@ export default function Dashboard() {
         </div>
 
         {/* Recent Activity */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           {/* Recent Submissions */}
           <div className="bg-white rounded-xl border border-gray-200">
             <div className="flex items-center justify-between p-6 border-b border-gray-200">
@@ -161,19 +161,19 @@ export default function Dashboard() {
             <div className="divide-y divide-gray-200">
               {recentSubmissions.map((submission) => (
                 <div key={submission.id} className="p-4 hover:bg-gray-50">
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <div>
                       <h3 className="text-sm font-medium text-gray-900">
                         {submission.tool_name}
                       </h3>
                       <p className="text-sm text-gray-500">{submission.email}</p>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <span className="flex items-center gap-1 text-xs text-gray-500">
-                        <Clock className="w-4 h-4" />
+                    <div className="flex items-center gap-2 self-start sm:self-center">
+                      <span className="flex items-center gap-1 text-xs text-gray-500 whitespace-nowrap">
+                        <Clock className="w-4 h-4 flex-shrink-0" />
                         {formatDate(submission.created_at)}
                       </span>
-                      <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800 whitespace-nowrap">
                         Pending
                       </span>
                     </div>
@@ -197,22 +197,26 @@ export default function Dashboard() {
             <div className="divide-y divide-gray-200">
               {recentMessages.map((message) => (
                 <div key={message.id} className="p-4 hover:bg-gray-50">
-                  <div className="flex items-center justify-between mb-1">
-                    <div className="flex items-center gap-2">
-                      <h3 className="text-sm font-medium text-gray-900">
-                        {message.name}
-                      </h3>
-                      {!message.read && (
-                        <Circle className="w-2 h-2 fill-primary-500 text-primary-500" />
-                      )}
+                  <div className="flex flex-col gap-2">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        <h3 className="text-sm font-medium text-gray-900">
+                          {message.name}
+                        </h3>
+                        {!message.read && (
+                          <Circle className="w-2 h-2 fill-primary-500 text-primary-500 flex-shrink-0" />
+                        )}
+                      </div>
+                      <span className="flex items-center gap-1 text-xs text-gray-500 whitespace-nowrap">
+                        <Clock className="w-4 h-4 flex-shrink-0" />
+                        {formatDate(message.created_at)}
+                      </span>
                     </div>
-                    <span className="flex items-center gap-1 text-xs text-gray-500">
-                      <Clock className="w-4 h-4" />
-                      {formatDate(message.created_at)}
-                    </span>
+                    <div>
+                      <p className="text-sm font-medium text-gray-700 mb-1">{message.subject}</p>
+                      <p className="text-sm text-gray-500 line-clamp-2">{message.message}</p>
+                    </div>
                   </div>
-                  <p className="text-sm font-medium text-gray-700">{message.subject}</p>
-                  <p className="text-sm text-gray-500 truncate">{message.message}</p>
                 </div>
               ))}
             </div>

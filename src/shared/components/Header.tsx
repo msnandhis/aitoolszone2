@@ -73,18 +73,7 @@ export function Header() {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center gap-4">
-            <button
-              onClick={() => {
-                const submitModal = document.getElementById('submit-modal');
-                if (submitModal instanceof HTMLDialogElement) {
-                  submitModal.showModal();
-                }
-              }}
-              className="px-4 py-2 text-sm font-medium text-white bg-[#FF5722] rounded-lg hover:bg-[#F4511E] transition-colors"
-            >
-              Submit Tool
-            </button>
+          <div className="md:hidden">
             <button
               onClick={() => {
                 // Toggle mobile menu
@@ -105,6 +94,22 @@ export function Header() {
         {/* Mobile Menu */}
         <div id="mobile-menu" className="hidden md:hidden py-4">
           <div className="flex flex-col gap-4">
+            <button
+              onClick={() => {
+                const submitModal = document.getElementById('submit-modal');
+                if (submitModal instanceof HTMLDialogElement) {
+                  submitModal.showModal();
+                }
+                // Close mobile menu after clicking
+                const mobileMenu = document.getElementById('mobile-menu');
+                if (mobileMenu) {
+                  mobileMenu.classList.add('hidden');
+                }
+              }}
+              className="w-full px-4 py-2 text-sm font-medium text-white bg-[#FF5722] rounded-lg hover:bg-[#F4511E] transition-colors"
+            >
+              Submit Tool
+            </button>
             <Link
               to="/"
               className={`text-sm font-medium ${
