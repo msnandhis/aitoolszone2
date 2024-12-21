@@ -2,9 +2,6 @@ import * as ftp from 'basic-ftp';
 import * as fs from 'fs';
 import * as path from 'path';
 import 'dotenv/config';
-import simpleGit from 'simple-git';
-
-const git = simpleGit();
 
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 2000; // 2 seconds
@@ -96,26 +93,6 @@ async function deploy() {
             process.exit(1);
         } else {
             console.log('FTP deployment completed successfully!');
-            
-            // Git operations
-            try {
-                console.log('Starting git operations...');
-                
-                // Add all changes
-                await git.add('.');
-                
-                // Commit changes
-                const timestamp = new Date().toISOString();
-                await git.commit(`Deployment ${timestamp}`);
-                
-                // Push changes
-                await git.push('origin', 'main');
-                
-                console.log('Git push completed successfully!');
-            } catch (gitErr) {
-                console.error('Error during git operations:', gitErr);
-                process.exit(1);
-            }
         }
     } catch (err) {
         console.error('Error during deployment:', err);

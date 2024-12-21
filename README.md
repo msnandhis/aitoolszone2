@@ -1,123 +1,43 @@
-# AI Tools Zone Admin Panel
+# Deployment System
 
-A responsive admin panel for managing AI tools directory, built with React, TypeScript, and Tailwind CSS.
+## Manual Deployment
+
+- `npm run deploy:ftp` - Builds and deploys to Bluehost via FTP
+- `npm run deploy:git` - Commits and pushes to GitHub
+- `npm run deploy` - Runs both FTP and Git deployment
+
+## Live FTP Sync
+
+- `npm run sync` - Builds and starts FTP sync (watches dist folder for changes)
+- `npm run dev:sync` - Runs development server and FTP sync simultaneously
 
 ## Features
 
-- 📱 Fully responsive design for mobile, tablet, and desktop
-- 🎨 Modern UI with Tailwind CSS
-- 📊 Dashboard with analytics overview
-- 🛠️ Tools management with search and filtering
-- 📝 Category management
-- 📨 Message handling system
-- 👥 User management
-- 📬 Submissions review system
-- 📥 Inbox for communications
+- Automatic file watching and instant FTP uploads
+- Handles file additions, modifications, and deletions
+- Maintains FTP connection pool for better performance
+- Creates remote directories automatically
+- Supports both one-time deployment and continuous sync
 
-## Getting Started
+## Development Workflow
 
-### Prerequisites
+1. To use during development:
+   - Run `npm run dev:sync` to start both development server and FTP sync
+   - Make changes to your code
+   - Changes will be automatically built and synced to the FTP server
 
-- Node.js >= 18.18.2
-- npm >= 9.8.1
+2. For production deployment:
+   - Run `npm run deploy` to:
+     - Build the project
+     - Deploy to Bluehost via FTP
+     - Commit and push to GitHub
 
-### Installation
+## Configuration
 
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/aitoolszone2.git
-cd aitoolszone2
-```
-
-2. Install dependencies:
-```bash
-npm install
-```
-
-3. Set up environment variables:
-```bash
-cp .env.example .env
-```
-Edit `.env` and configure your FTP deployment settings:
-```
-FTP_HOST=your-ftp-host.com
-FTP_USER=your-username
-FTP_PASS=your-password
-```
-
-### Development
-
-Start the development server:
-```bash
-npm run dev
-```
-
-### Building for Production
-
-Build the project:
-```bash
-npm run build
-```
-
-Preview the production build:
-```bash
-npm run preview
-```
-
-## Deployment
-
-### Manual Deployment
-
-Deploy to your FTP server:
-```bash
-npm run deploy
-```
-
-This will:
-1. Validate environment variables
-2. Build the project
-3. Upload files to your FTP server
-
-### Watch Mode Deployment
-
-For automatic deployment on file changes:
-```bash
-npm run watch-deploy
-```
-
-This will:
-1. Watch for file changes in src/ and public/
-2. Automatically build and deploy when changes are detected
-3. Handle multiple rapid changes efficiently
-4. Provide colored console output for better visibility
-
-### Retry Failed Uploads
-
-If some files fail to upload:
-```bash
-npm run deploy:retry
-```
-
-## Project Structure
+The system requires the following environment variables in your `.env` file:
 
 ```
-src/
-├── components/        # Reusable components
-├── pages/
-│   └── admin/        # Admin panel pages
-├── contexts/         # React contexts
-├── services/         # API services
-├── shared/          # Shared components/utilities
-├── types/           # TypeScript types
-└── utils/           # Utility functions
+FTP_HOST=your-ftp-host
+FTP_USER=your-ftp-username
+FTP_PASS=your-ftp-password
 ```
-
-## Contributing
-
-1. Create a feature branch
-2. Make your changes
-3. Submit a pull request
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
