@@ -7,7 +7,7 @@ import { styles } from '../../../theme';
 const STATIC_CREDENTIALS = {
   email: 'a@a.a',
   password: 'a'
-};
+}; 
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');

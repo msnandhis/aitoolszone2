@@ -5,8 +5,8 @@ import { Sparkles, Zap, Globe2, Search, Star, Shield } from 'lucide-react';
 
 export default function AboutPage() {
   useEffect(() => {
-    // Update meta tags for SEO
-    document.title = 'About AI Tools Directory - Discover the Best AI Tools and APIs';
+    // Update meta tags for SEO Purpose
+    document.title = 'About AI Tools Directory - Discover the Best AI Tools Online';
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute('content', 
